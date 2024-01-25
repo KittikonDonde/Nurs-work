@@ -46,6 +46,19 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+app.put('/api/data/:id', (req, res) => {
+  const id = req.params.id;
+  const { name, email } = req.body;
+
+  db.query('UPDATE mytable SET name = ?, email = ? WHERE id = ?', [name, email, id], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).send('Data updated successfully');
+    }
+  });
+});
 
 app.get('/api/data', (req, res) => {
   db.query('SELECT * FROM mytable', (err, result) => {
@@ -69,6 +82,20 @@ app.post('/api/data', (req, res) => {
     }
   });
 });
+
+app.delete('/api/data/:id', (req, res) => {
+  const id = req.params.id;
+
+  db.query('DELETE FROM mytable WHERE id = ?', [id], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).send('Data deleted successfully');
+    }
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
