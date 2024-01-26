@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Login from './pages/Login';
 
 const router = createBrowserRouter([{
   path: '/',
-  element: <App />
+  element: <Login />
 }
 ]);
 
