@@ -22,6 +22,26 @@ const db = mysql.createConnection({
 });
 
 db.connect();
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  // คำสั่ง SQL เพื่อค้นหาผู้ใช้จากฐานข้อมูล
+  const sql = `SELECT * FROM users WHERE username = ? AND password = ?`;
+  // ทำการ query ฐานข้อมูล
+  db.query(sql, [username, password], (err, result) => {
+      if (err) {
+          // กรณีเกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล
+          console.error(err);
+          res.status(500).json({ success: false, message: 'Internal Server Error' });
+      } else {
+          // ตรวจสอบว่ามีผู้ใช้งานที่ตรงกับข้อมูลที่รับมาหรือไม่
+          if (result.length > 0) {
+              res.json({ success: true, message: 'Login successful', user: result[0] });
+          } else {
+              res.status(401).json({ success: false, message: 'Invalid username or password' });
+          }
+      }
+  });
+});
 
 app.post('/api/upload', upload.single('file'), (req, res) => {
   try {

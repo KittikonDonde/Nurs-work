@@ -1,56 +1,66 @@
-// NewPage.jsx
-
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function Login() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const response = await axios.post('http://localhost:3001/login', { username, password });
+        console.log(response.data);
+        setError('');
+        // ส่งผู้ใช้ไปยังหน้าอื่นๆ
+      } catch (error) {
+        setError(error.response.data.message);
+        alert(' username หรือ password ผิด');
+      }
+    };
+  
     return (
-        <div class="hold-transition login-page">
-            <div class="login-box">
-                <div class="login-logo">
+        <div className="hold-transition login-page">
+            <div className="login-box">
+                <div className="login-logo">
                     <a href="../../index2.html"><b>Admin</b>LTE</a>
                 </div>
-                <div class="card">
-                    <div class="card-body login-card-body">
-                        <p class="login-box-msg">Sign in to start your session</p>
+                <div className="card">
+                    <div className="card-body login-card-body">
+                        <p className="login-box-msg">Sign in to start your session</p>
 
-                        <form action="../../index3.html" method="post">
-                            <div class="input-group mb-3">
-                                <input type="email" class="form-control" placeholder="Email" />
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-envelope"></span>
+                        <form action="../../index3.html" method="post" onSubmit={handleSubmit}>
+                            <div className="input-group mb-3">
+                                <input class="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                <div className="input-group-append">
+                                    <div className="input-group-text">
+                                        <span className="fas fa-envelope"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="Password" />
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
+                            <div className="input-group mb-3">
+                                <input class="form-control" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <div className="input-group-append">
+                                    <div className="input-group-text">
+                                        <span className="fas fa-lock"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="icheck-primary">
+                            <div className="row">
+                                <div className="col-8">
+                                    <div className="icheck-primary">
                                         <input type="checkbox" id="remember" />
-                                        <label for="remember">
+                                        <label htmlFor="remember">
                                             Remember Me
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                                <div className="col-4">
+                                    <button type="submit" className="btn btn-primary btn-block">Sign In</button>
                                 </div>
                             </div>
                         </form>
-
-                        
-
-                        
-                        
                     </div>
-
                 </div>
             </div>
         </div>
