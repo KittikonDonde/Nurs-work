@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "axios": "^1.6.7",
+    "react-router-dom": "^6.21.3",
+    "sweetalert2": "^11.10.4"
+  }
+}
