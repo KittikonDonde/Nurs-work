@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
   
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -12,10 +14,11 @@ function Login() {
         const response = await axios.post('http://localhost:3001/login', { username, password });
         console.log(response.data);
         setError('');
+        navigate('/home')
         // ส่งผู้ใช้ไปยังหน้าอื่นๆ
       } catch (error) {
         setError(error.response.data.message);
-        alert(' username หรือ password ผิด');
+        alert(' username หรือ password');
       }
     };
   
@@ -48,12 +51,7 @@ function Login() {
                             </div>
                             <div className="row">
                                 <div className="col-8">
-                                    <div className="icheck-primary">
-                                        <input type="checkbox" id="remember" />
-                                        <label htmlFor="remember">
-                                            Remember Me
-                                        </label>
-                                    </div>
+                                    
                                 </div>
                                 <div className="col-4">
                                     <button type="submit" className="btn btn-primary btn-block">Sign In</button>
