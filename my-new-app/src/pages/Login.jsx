@@ -18,7 +18,7 @@ function Login() {
         // ส่งผู้ใช้ไปยังหน้าอื่นๆ
       } catch (error) {
         setError(error.response.data.message);
-        alert(' username หรือ password');
+        alert(' username หรือ password ผิด');
       }
     };
   

@@ -9,7 +9,7 @@ function Sidebar() {
                         <img src="dist/img/1.jpg" class="img-circle elevation-2" alt="User Image" />
                     </div>
                     <div class="info">
-                        <a href="" class="d-block">ตัวชีวัด โรงพยาบาลแม่สอด</a>
+                        <a href="/home" class="d-block">ตัวชีวัด โรงพยาบาลแม่สอด</a>
                     </div>
                 </div>
                 <nav class="mt-2">
@@ -27,7 +27,7 @@ function Sidebar() {
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
 
-                                    <a href="" class="nav-link">
+                                    <a href="./dn0101" class="nav-link">
                                         <i class="far remove-outline nav-icon"></i>
                                         <i class="far remove-outline nav-icon"></i>
                                         <p>DN0101</p>

@@ -30,10 +30,6 @@ function Navbar() {
 
     return (
         <nav className="main-header navbar navbar-expand navbar-white navbar-light">
-            <ul className="navbar-nav">
-               
-            </ul>
-
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                     <button onClick={handleLogout} className="btn btn-danger">
