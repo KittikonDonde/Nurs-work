@@ -82,7 +82,7 @@ app.put('/api/data/:id', (req, res) => {
 });
 
 app.get('/api/data', (req, res) => {
-  db.query('SELECT * FROM mytable', (err, result) => {
+  db.query('SELECT * FROM nd0102', (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Internal Server Error');
@@ -92,9 +92,9 @@ app.get('/api/data', (req, res) => {
   });
 });
 
-app.post('/api/data', (req, res) => {
-  const { name, email } = req.body;
-  db.query('INSERT INTO mytable (name, email) VALUES (?, ?)', [name, email], (err, result) => {
+app.post('/api/data/create', (req, res) => {
+  const { a, b } = req.body;
+  db.query('INSERT INTO nd0102 (a, b) VALUES (?, ?)', [a, b], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Internal Server Error');
@@ -107,7 +107,7 @@ app.post('/api/data', (req, res) => {
 app.delete('/api/data/:id', (req, res) => {
   const id = req.params.id;
 
-  db.query('DELETE FROM mytable WHERE id = ?', [id], (err, result) => {
+  db.query('DELETE FROM nd0102 WHERE id = ?', [id], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Internal Server Error');
@@ -116,6 +116,24 @@ app.delete('/api/data/:id', (req, res) => {
     }
   });
 });
+
+// PUT Endpoint เพื่ออัปเดตข้อมูลในฐานข้อมูล
+app.put('/api/data/edit', (req, res) => {
+  const id = req.body.id; // เปลี่ยนจาก req.params.id เป็น req.body.id
+  const { a, b } = req.body;
+
+  // ทำการ query ฐานข้อมูลเพื่ออัปเดตข้อมูล
+  db.query('UPDATE nd0102 SET a = ?, b = ? WHERE id = ?', [a, b, id], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).send('Data updated successfully');
+    }
+  });
+});
+
+
 
 
 app.listen(port, () => {
