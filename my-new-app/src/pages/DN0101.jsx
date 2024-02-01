@@ -7,7 +7,7 @@ import ReactPaginate from 'react-paginate';
 
 function DN0101() {
     const [books, setBooks] = useState([]);
-    const [book, setBook] = useState({ a: '', b: '' });
+    const [book, setBook] = useState({ monthYear: '', a: '', b: '' });
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 10; // จำนวนรายการที่ต้องการแสดงต่อหน้า
 
@@ -60,6 +60,7 @@ function DN0101() {
             });
         }
     }
+    
 
     const handleDelete = async (item) => {
         Swal.fire({
@@ -131,10 +132,10 @@ function DN0101() {
                                         <div className="card">
                                             <div className="card-body">
                                                 {currentPageItems.length > 0 ?
-                                                    <table id="myDataTable" className="table table-bordered table-stiped mt-2">
+                                                    <table id="myDataTable" className="table table-bordered table-striped mt-2">
                                                         <thead>
                                                             <tr>
-                                                                <th>Date</th>
+                                                                <th>เดือน / ปี</th>
                                                                 <th>A</th>
                                                                 <th>B</th>
                                                                 <th>ค่าเฉลี่ย</th>
@@ -144,12 +145,12 @@ function DN0101() {
                                                         <tbody>
                                                             {currentPageItems.map(item =>
                                                                 <tr key={item.id}>
-                                                                    <td>{item.date}</td>
+                                                                    <td>{item.monthYear}</td>
                                                                     <td>{item.a}</td>
                                                                     <td>{item.b}</td>
                                                                     <td>{parseInt((item.a / item.b) * 100)}</td>
                                                                     <td>
-                                                                        <button onClick={() => setBook(item)} className="btn btn-info" data-toggle='modal' data-target='#modalForm' style={{ marginRight: '3px' }}>Edit</button>
+                                                                        <button onClick={() => setBook(item)} className="btn btn-warning" data-toggle='modal' data-target='#modalForm' style={{ marginRight: '3px' }}>Edit</button>
                                                                         <button onClick={() => handleDelete(item)} className="btn btn-danger">Delete</button>
                                                                     </td>
 
@@ -187,6 +188,11 @@ function DN0101() {
                 </div>
             </Template>
             <Modal id='modalForm' title='ข้อมูลหนังสือ'>
+                <div>
+                    <label>Month Year</label>
+                    <input className="form-control" type="text" name="monthYear" value={book.monthYear} onChange={(e) => setBook({ ...book, monthYear: e.target.value })} />
+                </div>
+
                 <div>
                     <label>A</label>
                     <input className="form-control" type="text" name="a" value={book.a} onChange={(e) => setBook({ ...book, a: e.target.value })} />

@@ -27,6 +27,19 @@
 .App-link {
   color: #61dafb;
 }
+/* CSS */
+.table-striped tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* สีสำหรับแถวคู่ */
+}
+
+.table-striped tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* สีสำหรับแถวคี่ */
+}
+/* สไตล์สำหรับตารางที่มีสีสับกัน */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
 
 @keyframes App-logo-spin {
   from {
