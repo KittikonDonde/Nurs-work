@@ -118,8 +118,8 @@ app.delete('/api/data/:id', (req, res) => {
 });
 
 // PUT Endpoint เพื่ออัปเดตข้อมูลในฐานข้อมูล
-app.put('/api/data/edit', (req, res) => {
-  const id = req.body.id; // เปลี่ยนจาก req.params.id เป็น req.body.id
+app.put('/api/data/edit/:id', (req, res) => {
+  const id = req.params.id; // เปลี่ยนจาก req.body.id เป็น req.params.id
   const { a, b } = req.body;
 
   // ทำการ query ฐานข้อมูลเพื่ออัปเดตข้อมูล
@@ -132,6 +132,7 @@ app.put('/api/data/edit', (req, res) => {
     }
   });
 });
+
 
 
 
