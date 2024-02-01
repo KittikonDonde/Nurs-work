@@ -3,14 +3,17 @@ import Template from '../components/Template';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import Modal from '../components/Modal';
+import ReactPaginate from 'react-paginate';
 
 function DN0101() {
     const [books, setBooks] = useState([]);
     const [book, setBook] = useState({ a: '', b: '' });
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 10; // จำนวนรายการที่ต้องการแสดงต่อหน้า
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [currentPage]); // เรียกใช้ fetchData เมื่อ currentPage เปลี่ยนแปลง
 
     const fetchData = async () => {
         try {
@@ -37,29 +40,18 @@ function DN0101() {
             let response;
             if (!book.id) {
                 response = await axios.post('http://172.16.61.7:3001/api/data/create', book);
-                fetchData();
-                document.getElementById('btnClose').click();
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "บันทึกสำเร็จ",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
             } else {
                 response = await axios.put(`http://172.16.61.7:3001/api/data/edit/${book.id}`, book);
-                fetchData();
-                document.getElementById('btnClose').click();
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "บันทึกสำเร็จ",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
             }
-            if (response.data.message === 'success') {
-            }
+            fetchData();
+            document.getElementById('btnClose').click();
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "บันทึกสำเร็จ",
+                showConfirmButton: false,
+                timer: 1500
+            });
         } catch (error) {
             Swal.fire({
                 title: 'Error',
@@ -69,7 +61,7 @@ function DN0101() {
         }
     }
 
-    const handleDelete = (item) => {
+    const handleDelete = async (item) => {
         Swal.fire({
             title: 'Delete Product',
             text: 'Are you sure to delete?',
@@ -80,17 +72,7 @@ function DN0101() {
             if (result.isConfirmed) {
                 try {
                     const response = await axios.delete(`http://172.16.61.7:3001/api/data/${item.id}`);
-                    if (response.data.message === 'success') {
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "บันทึกสำเร็จ",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    }
                     fetchData();
-                    document.getElementById('btnClose').click();
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -108,6 +90,14 @@ function DN0101() {
             }
         });
     }
+
+    // คำนวณหน้าทั้งหมด
+    const totalPages = Math.ceil(books.length / itemsPerPage);
+
+    // คำนวณ index ของ items ที่ต้องแสดงในหน้าปัจจุบัน
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, books.length);
+    const currentPageItems = books.slice(startIndex, endIndex);
 
     return (
         <>
@@ -140,8 +130,8 @@ function DN0101() {
 
                                         <div className="card">
                                             <div className="card-body">
-                                                {books.length > 0 ?
-                                                    <table className="table table-bordered table-stiped mt-2">
+                                                {currentPageItems.length > 0 ?
+                                                    <table id="myDataTable" className="table table-bordered table-stiped mt-2">
                                                         <thead>
                                                             <tr>
                                                                 <th>Date</th>
@@ -152,7 +142,7 @@ function DN0101() {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {books.map(item =>
+                                                            {currentPageItems.map(item =>
                                                                 <tr key={item.id}>
                                                                     <td>{item.date}</td>
                                                                     <td>{item.a}</td>
@@ -162,11 +152,31 @@ function DN0101() {
                                                                         <button onClick={() => setBook(item)} className="btn btn-info" data-toggle='modal' data-target='#modalForm' style={{ marginRight: '3px' }}>Edit</button>
                                                                         <button onClick={() => handleDelete(item)} className="btn btn-danger">Delete</button>
                                                                     </td>
+
                                                                 </tr>
                                                             )}
                                                         </tbody>
                                                     </table>
                                                     : <p>No data available</p>}
+                                                <ReactPaginate
+                                                    previousLabel={'Previous'}
+                                                    nextLabel={'Next'}
+                                                    breakLabel={'...'}
+                                                    pageCount={totalPages}
+                                                    marginPagesDisplayed={2}
+                                                    pageRangeDisplayed={5}
+                                                    onPageChange={(selected) => setCurrentPage(selected.selected)}
+                                                    containerClassName={'pagination mt-3  justify-content-end'} // เพิ่ม justify-content-end เพื่อให้ pagination ชิดฝั่งขวา
+                                                    activeClassName={'active'}
+                                                    previousClassName={'page-item'}
+                                                    nextClassName={'page-item'}
+                                                    pageClassName={'page-item'}
+                                                    breakClassName={'page-item'}
+                                                    pageLinkClassName={'page-link'}
+                                                    previousLinkClassName={'page-link'}
+                                                    nextLinkClassName={'page-link'}
+                                                    breakLinkClassName={'page-link'}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -192,6 +202,8 @@ function DN0101() {
                     </button>
                 </div>
             </Modal>
+            {/* Pagination */}
+
         </>
     );
 }
