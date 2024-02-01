@@ -60,7 +60,7 @@ function DN0101() {
             });
         }
     }
-    
+
 
     const handleDelete = async (item) => {
         Swal.fire({
@@ -120,13 +120,16 @@ function DN0101() {
                                 <div className="col-12">
                                     <div className="card">
                                         <div className="card-header">
-                                            <h3 className="card-title">ร้อยละการเสียชีวิตของผู้ป่วย Stroke</h3>
+                                        <h3 className="card-title">ร้อยละการเสียชีวิตของผู้ป่วย Stroke</h3><br>
+                                        </br><h3 className="card-title">A : จำนวนครั้งของการจำหน่ายด้วยการเสียชีวิต ของผู้ป่วย Stroke จากทุกหอผู้ป่วยใน </h3><br>
+                                        </br><h3 className="card-title">B : จำนวนครั้งของการจำหน่ายทุกสถานะ ของผู้ป่วย Stroke จากทุกหอผู้ป่วยในช่วงเดือนเดียวกัน</h3>
                                             <div className="d-flex justify-content-end">
                                                 <button onClick={handleNewData} className="btn btn-primary" data-target='#modalForm' data-toggle='modal'>
                                                     <i className="fa fa-plus" style={{ marginRight: '10px' }}></i>
                                                     เพิ่มรายการ
                                                 </button>
                                             </div>
+
                                         </div>
 
                                         <div className="card">
@@ -178,6 +181,8 @@ function DN0101() {
                                                     nextLinkClassName={'page-link'}
                                                     breakLinkClassName={'page-link'}
                                                 />
+
+
                                             </div>
                                         </div>
                                     </div>
