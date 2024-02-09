@@ -17,7 +17,7 @@ function DN0101() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://172.16.61.7:3001/api/data');
+            const response = await axios.get('http://172.16.39.7:3001/api/data');
             setBooks(response.data);
         } catch (error) {
             Swal.fire({
@@ -39,9 +39,9 @@ function DN0101() {
         try {
             let response;
             if (!book.id) {
-                response = await axios.post('http://172.16.61.7:3001/api/data/create', book);
+                response = await axios.post('http://172.16.39.7:3001/api/data/create', book);
             } else {
-                response = await axios.put(`http://172.16.61.7:3001/api/data/edit/${book.id}`, book);
+                response = await axios.put(`http://172.16.39.7:3001/api/data/edit/${book.id}`, book);
             }
             fetchData();
             document.getElementById('btnClose').click();
@@ -72,7 +72,7 @@ function DN0101() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const response = await axios.delete(`http://172.16.61.7:3001/api/data/${item.id}`);
+                    const response = await axios.delete(`http://172.16.39.7:3001/api/data/${item.id}`);
                     fetchData();
                     Swal.fire({
                         position: "center",
